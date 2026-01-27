@@ -1,0 +1,98 @@
+--- CRUD
+CREATE TABLE MOVIE(SNO INT, MS VARCHAR(100));
+INSERT INTO MOVIE(SNO, MS) VALUES (1, 'MANKATHA'), (2,'GBU'),(3, 'VEERAM');
+
+SELECT * FROM MOVIE;
+UPDATE MOVIE SET MS = 'VIVEGAM' WHERE sno = 3;
+DELETE FROM MOVIE WHERE SNO = 2;
+
+ALTER TABLE MOVIE ADD DIRECTORS VARCHAR (100);
+
+
+CREATE TABLE ROOM (SNO INT, FURNITURE VARCHAR(200));
+INSERT INTO ROOM(SNO, furniture) VALUES(1, 'TABLE'), (2, 'BED'), (3, 'LIGHT');
+SELECT * FROM ROOM;
+UPDATE ROOM SET furniture = 'CHAIR' WHERE SNO = 3;
+-- ALTER
+ALTER TABLE ROOM ADD PRICE DECIMAL(4,2);
+INSERT INTO ROOM(SNO, furniture, PRICE) VALUES(1, 'TABLE', 4200), (2, 'BED', 343), (3, 'LIGHT', 456);
+
+--- JOINT
+
+CREATE TABLE Restaurants (
+    id INT  PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(100) NOT NULL
+);
+
+INSERT INTO Restaurants (id, name, location) VALUES
+(1, 'ABC Bistro', 'New York'),
+(2, 'The Foodie', 'Los Angeles'),
+(3, 'Tasty Treat', 'Chicago');
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    restaurant_id INT NOT NULL,
+    order_date DATE NOT NULL
+);
+
+INSERT INTO Orders (order_id,restaurant_id, order_date) VALUES
+(1, 1, '2023-01-01'),
+(2, 1, '2023-01-02'),
+(3, 2, '2023-01-05'),
+(4, 4, '2023-01-07');
+
+SELECT * from orders;
+SELECT * from Restaurants;
+
+-- inner joint
+SELECT
+r.location as names,
+o.order_date 
+from Restaurants r, orders o
+join orders on r.id = o.restaurant_id;
+
+select 
+r.name as restaurant_name,
+o.order_date 
+from Restaurants r
+left join orders o on r.id = o.restaurant_id;
+
+SELECT * from Orders;
+
+-- Alter
+
+drop table if exists Employees;
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50)
+);
+ALTER TABLE Employees ADD Company varchar(100);
+alter TABLE Employees drop column company;
+SELECT * FROM Employees;
+ALTER TABLE Employees to Employees_table;
+
+CREATE TABLE rides (
+    ride_id INT PRIMARY KEY,
+    driver_id INT,
+    rider_id INT,
+    pickup_location VARCHAR(100),
+    dropoff_location VARCHAR(100),
+    ride_date DATETIME,
+    fare DECIMAL(10, 2)
+);
+
+INSERT INTO rides (ride_id, driver_id, rider_id, pickup_location, dropoff_location, ride_date, fare)
+VALUES
+(1, 101, 201, 'Chennai', 'Coimbatore', '2024-12-29 08:00:00', 500.00),
+(2, 102, 202, 'Bangalore', 'Hyderabad', '2024-12-29 10:00:00', 800.00),
+(3, 103, 203, 'Chennai', 'Madurai', '2024-12-29 12:00:00', 400.00),
+(4, 104, 204, 'Coimbatore', 'Chennai', '2024-12-29 14:00:00', 600.00),
+(5, 101, 205, 'Bangalore', 'Coimbatore', '2024-12-29 16:00:00', 700.00);
+SELECT * FROM rides;
+
+SELECT* from rides where fare > 400;
+
+SELECT * FROM rides order by fare desc;
+SELECT * from rides WHERE fare > '399' and pickup_location = 'Chennai';
